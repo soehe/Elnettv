@@ -3,32 +3,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="#081018"
-    android:padding="18dp">
+    android:background="#070B12"
+    android:padding="14dp">
 
     <LinearLayout
-        android:layout_width="270dp"
+        android:layout_width="310dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#101c28"
+        android:background="#101722"
         android:padding="14dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SOEHE TV"
-            android:textColor="#ff8a00"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
+            android:text="LNET TV"
+            android:textColor="#FFC107"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DAFTAR CHANNEL"
-            android:textColor="#b8c7d9"
-            android:textSize="12sp"
-            android:paddingBottom="12dp" />
+            android:text="OBSIDIAN • PLAYLIST M3U"
+            android:textColor="#9AA8BA"
+            android:textSize="11sp"
+            android:paddingBottom="10dp" />
+
+        <EditText
+            android:id="@+id/playlist_url"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="URL playlist M3U/M3U8"
+            android:singleLine="true"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#7B8796"
+            android:inputType="textUri" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/load_url_button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="MUAT URL"
+                android:textSize="11sp" />
+            <Button
+                android:id="@+id/open_file_button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="BUKA FILE"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="HAPUS PLAYLIST"
+            android:textSize="11sp" />
+
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Cari channel atau kategori"
+            android:singleLine="true"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#7B8796"
+            android:inputType="text" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -47,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="14dp"
         android:background="#000000">
 
         <androidx.media3.ui.PlayerView
@@ -64,7 +110,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="24dp"
-            android:text="Soehe TV\nMemuat siaran..."
+            android:text="LNET TV\nMemuat siaran..."
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
