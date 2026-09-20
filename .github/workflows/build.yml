@@ -44,6 +44,7 @@ echo "Using sdkmanager: $SDKMANAGER"
           "$SDKMANAGER" "platform-tools"
           "$SDKMANAGER" "platforms;android-35"
           "$SDKMANAGER" "build-tools;35.0.0"
+          
 - name: Build APK
         uses: gradle/gradle-build-action@v3
         with:
