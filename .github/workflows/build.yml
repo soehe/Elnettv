@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feature/elnet-tv-demo
       - fix/tv-app-crash
 
 jobs:
