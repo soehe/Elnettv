@@ -10,7 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    steps:
+
+steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -20,7 +21,7 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Setup Android command-line tools
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Install Android SDK packages
@@ -38,17 +39,16 @@ jobs:
             exit 1
           fi
 
+          echo "Using sdkmanager: $SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platform-tools"
-          "$SDKMANAGER" "platforms;android-35"
-          "$SDKMANAGER" "build-tools;35.0.0"
+          "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
-          - name: Build APK
-            uses: gradle/gradle-build-action@v3
-            with:
+      - name: Build APK
+        uses: gradle/gradle-build-action@v3
+        with:
           gradle-version: "8.7"
-          arguments: assembleDebug --no-daemon                                                                                                             
-          
+          arguments: assembleDebug --no-daemon
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
