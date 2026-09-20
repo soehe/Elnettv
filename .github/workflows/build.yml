@@ -5,31 +5,32 @@ on:
   push:
     branches:
       - feature/elnet-tv-demo
+      - fix/tv-app-crash
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
 steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-- name: Setup Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-- name: Setup Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-- name: Build APK
+     - name: Build APK
         uses: gradle/gradle-build-action@v3
         with:
           gradle-version: "8.7"
           arguments: assembleDebug
 
-- name: Upload APK
+     - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: elnet-tv-debug-apk
