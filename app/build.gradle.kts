@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.elnet.tv"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -36,5 +36,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.media3:media3-exoplayer:1.5.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.5.1")
     implementation("androidx.media3:media3-ui:1.5.1")
 }
