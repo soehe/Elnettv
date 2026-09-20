@@ -3,8 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:theme="@style/AppTheme"
-        android:label="Elnet TV"
-        android:banner="@drawable/banner">
+        android:label="Elnet TV">
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"
