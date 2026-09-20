@@ -24,13 +24,13 @@ steps:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-     - name: Build APK
+      - name: Build APK
         uses: gradle/gradle-build-action@v3
         with:
           gradle-version: "8.7"
           arguments: assembleDebug
 
-     - name: Upload APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: elnet-tv-debug-apk
