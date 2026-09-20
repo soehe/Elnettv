@@ -38,9 +38,9 @@ jobs:
             echo "sdkmanager tidak ditemukan"
             exit 1
           fi
-        echo "Using sdkmanager: $SDKMANAGER"
+echo "Using sdkmanager: $SDKMANAGER"
 
-          yes | "$SDKMANAGER" --licenses >/dev/null || true
+           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platform-tools"
           "$SDKMANAGER" "platforms;android-35"
           "$SDKMANAGER" "build-tools;35.0.0"
