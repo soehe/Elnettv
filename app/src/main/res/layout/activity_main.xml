@@ -2,98 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="#070B12"
-    android:padding="14dp">
-
-    <LinearLayout
-        android:layout_width="310dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#101722"
-        android:padding="14dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LNET TV"
-            android:textColor="#FFC107"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="OBSIDIAN • PLAYLIST M3U"
-            android:textColor="#9AA8BA"
-            android:textSize="11sp"
-            android:paddingBottom="10dp" />
-
-        <EditText
-            android:id="@+id/playlist_url"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="URL playlist M3U/M3U8"
-            android:singleLine="true"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#7B8796"
-            android:inputType="textUri" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/load_url_button"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="MUAT URL"
-                android:textSize="11sp" />
-            <Button
-                android:id="@+id/open_file_button"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="BUKA FILE"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/clear_button"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:text="HAPUS PLAYLIST"
-            android:textSize="11sp" />
-
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Cari channel atau kategori"
-            android:singleLine="true"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#7B8796"
-            android:inputType="text" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
-            <LinearLayout
-                android:id="@+id/channel_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-    </LinearLayout>
+    android:orientation="vertical"
+    android:background="#07090D"
+    android:padding="10dp">
 
     <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginStart="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.78"
         android:background="#000000">
 
         <androidx.media3.ui.PlayerView
@@ -101,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:keepScreenOn="true"
-            android:background="#000000" />
+            android:background="#000000"
+            android:useController="true" />
 
         <TextView
             android:id="@+id/status_view"
@@ -109,10 +26,107 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
-            android:text="LNET TV\nMemuat siaran..."
+            android:padding="20dp"
+            android:text="ELNETTV\nMemuat siaran..."
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="#11151D"
+        android:paddingStart="10dp"
+        android:paddingEnd="6dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ELNETTV"
+            android:textColor="#F21D28"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/load_url_button"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="MUAT"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E50920" />
+
+        <Button
+            android:id="@+id/open_file_button"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="FILE"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#262B35" />
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="HAPUS"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#262B35" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/playlist_url"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:singleLine="true"
+        android:inputType="textUri" />
+
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="6dp"
+        android:background="#1A1E27"
+        android:hint="Cari channel atau kategori"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:singleLine="true"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#8A919D"
+        android:inputType="text" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content" android:layout_height="32dp" android:layout_marginEnd="6dp" android:gravity="center" android:paddingStart="16dp" android:paddingEnd="16dp" android:text="INDONESIA" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#E50920" />
+            <TextView android:layout_width="wrap_content" android:layout_height="32dp" android:layout_marginEnd="6dp" android:gravity="center" android:paddingStart="16dp" android:paddingEnd="16dp" android:text="SPORTS" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#242832" />
+            <TextView android:layout_width="wrap_content" android:layout_height="32dp" android:layout_marginEnd="6dp" android:gravity="center" android:paddingStart="16dp" android:paddingEnd="16dp" android:text="SPORTS+" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#242832" />
+            <TextView android:layout_width="wrap_content" android:layout_height="32dp" android:layout_marginEnd="6dp" android:gravity="center" android:paddingStart="16dp" android:paddingEnd="16dp" android:text="KIDS" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#242832" />
+            <TextView android:layout_width="wrap_content" android:layout_height="32dp" android:gravity="center" android:paddingStart="16dp" android:paddingEnd="16dp" android:text="MOVIE &amp; ENT" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#242832" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <LinearLayout
+            android:id="@+id/channel_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 </LinearLayout>
