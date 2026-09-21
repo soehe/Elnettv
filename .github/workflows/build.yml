@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - feature/elnet-tv-demo
-      - fix/tv-app-crash
+      - feature/elnettv-production
 
 jobs:
   build:
