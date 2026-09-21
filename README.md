@@ -1,14 +1,27 @@
 # Elnet TV
 
-Demo Android TV app for Elnet Network.
+Android TV IPTV player built with Kotlin, AndroidX, and Media3 ExoPlayer.
 
-## Demo stream
+## Features
 
-The initial build uses a public test HLS stream:
-`https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8`
+- M3U/M3U8/TXT playlist loading from URL or local file
+- Last successful playlist cached locally for offline fallback
+- Channel search by name or group
+- HLS playback with Media3 ExoPlayer
+- Android TV / remote-friendly landscape interface
+- No analytics and no hard-coded production stream credentials
 
-Replace `demoUrl` in `app/src/main/java/com/elnet/tv/MainActivity.kt` with the official Elnet stream before production use.
+## Development playlist
+
+Set the playlist URL from the in-app URL field before loading. A development URL is accepted only when its response is a valid M3U playlist. If loading fails, the app keeps the last cached playlist.
+
+Use only streams and playlists you are authorized to access. Do not ship third-party URLs as production defaults.
 
 ## Build
 
-GitHub Actions builds `app-debug.apk` and uploads it as an artifact when changes are pushed to `feature/elnet-tv-demo`.
+```bash
+./gradlew assembleDebug
+./gradlew assembleRelease
+```
+
+GitHub Actions builds the debug APK on pushes to the development and production branches.
