@@ -34,10 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val openPlaylist = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
         uri ?: return@registerForActivityResult
         try {
-            contentResolver.openInputStream(uri)?.bufferedReader()?.use { parsePlaylist(it.readText()) }
-        } catch (_: Exception) {
-            Toast.makeText(this, "Gagal membaca file M3U", Toast.LENGTH_SHORT).show()
-        }
+            contentResolver.openInputStream(uri)?.bufferedReader()?.use { loadPlaylist(it.readText(), null) }
+        } catch (_: Exception) { showError("Gagal membaca file M3U") }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +46,16 @@ class MainActivity : AppCompatActivity() {
         channelList = findViewById(R.id.channel_list)
         playlistUrl = findViewById(R.id.playlist_url)
         searchInput = findViewById(R.id.search_input)
-        playlistUrl.setText(preferences.getString("url", "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"))
+        playlistUrl.setText(preferences.getString("url", ""))
         findViewById<Button>(R.id.load_url_button).setOnClickListener { loadFromUrl() }
-        findViewById<Button>(R.id.open_file_button).setOnClickListener { openPlaylist.launch(arrayOf("text/*", "application/octet-stream")) }
+        findViewById<Button>(R.id.open_file_button).setOnClickListener {
+            openPlaylist.launch(arrayOf("text/*", "application/octet-stream"))
+        }
         findViewById<Button>(R.id.clear_button).setOnClickListener {
             allChannels.clear(); channelList.removeAllViews(); player?.stop()
-            Toast.makeText(this, "Playlist dihapus", Toast.LENGTH_SHORT).show()
+            preferences.edit().remove("content").apply()
+            statusView.visibility = View.VISIBLE
+            statusView.text = "Playlist kosong — masukkan URL atau buka fail M3U"
         }
         searchInput.addTextChangedListener(SimpleTextWatcher { buildChannelMenu(it) })
         preferences.getString("content", null)?.takeIf { it.isNotBlank() }?.let { parsePlaylist(it) }
@@ -61,18 +63,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadFromUrl() {
         val url = playlistUrl.text.toString().trim()
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            Toast.makeText(this, "Masukkan URL playlist yang valid", Toast.LENGTH_SHORT).show(); return
-        }
+        if (!url.startsWith("http://") && !url.startsWith("https://")) { showError("Masukkan URL playlist yang valid"); return }
         statusView.visibility = View.VISIBLE; statusView.text = "Memuat playlist..."
         Thread {
             try {
                 val text = java.net.URL(url).openStream().bufferedReader().use { it.readText() }
-                runOnUiThread { preferences.edit().putString("url", url).putString("content", text).apply(); parsePlaylist(text) }
+                runOnUiThread { loadPlaylist(text, url) }
             } catch (_: Exception) {
-                runOnUiThread { statusView.text = "Gagal memuat playlist"; Toast.makeText(this, "Cek URL atau koneksi internet", Toast.LENGTH_LONG).show() }
+                runOnUiThread { statusView.text = "Gagal memuat playlist; cache terakhir dikekalkan"; Toast.makeText(this, "Cek URL atau koneksi internet", Toast.LENGTH_LONG).show() }
             }
         }.start()
+    }
+
+    private fun loadPlaylist(text: String, sourceUrl: String?) {
+        if (!text.trimStart().startsWith("#EXTM3U", ignoreCase = true)) { showError("Respons bukan playlist M3U yang valid"); return }
+        if (sourceUrl != null) preferences.edit().putString("url", sourceUrl).putString("content", text).apply()
+        parsePlaylist(text)
     }
 
     private fun parsePlaylist(text: String) {
@@ -81,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         for (i in lines.indices) {
             val line = lines[i].trim()
             if (line.startsWith("#EXTINF", true)) {
-                title = line.substringAfterLast(",", "Channel").trim().ifBlank { "Channel" }
+                title = line.substringAfterLast(',', "Channel").trim().ifBlank { "Channel" }
                 group = Regex("group-title=\"([^\"]*)\"", RegexOption.IGNORE_CASE).find(line)?.groupValues?.get(1)?.ifBlank { "Lainnya" } ?: "Lainnya"
                 val url = lines.drop(i + 1).firstOrNull { it.trim().isNotEmpty() && !it.trim().startsWith("#") }?.trim()
                 if (!url.isNullOrBlank() && (url.startsWith("http://") || url.startsWith("https://"))) allChannels.add(Channel(title, url, group))
@@ -99,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 text = "${index + 1}. ${channel.title}"; gravity = Gravity.START or Gravity.CENTER_VERTICAL
                 setTextColor(Color.WHITE); textSize = 14f; isFocusable = true
                 setOnClickListener { playChannel(allChannels.indexOf(channel)) }
-                setOnFocusChangeListener { view, focused -> view.setBackgroundColor(if (focused) Color.rgb(255, 193, 7) else Color.TRANSPARENT) }
+                setOnFocusChangeListener { view, focused -> view.setBackgroundColor(if (focused) Color.rgb(229, 9, 32) else Color.TRANSPARENT) }
             }
             channelList.addView(button, LinearLayout.LayoutParams(-1, 56).apply { bottomMargin = 6 })
         }
@@ -119,9 +125,14 @@ class MainActivity : AppCompatActivity() {
             playerView.player = exo
             exo.addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(state: Int) { if (state == Player.STATE_READY) statusView.visibility = View.GONE }
-                override fun onPlayerError(error: PlaybackException) { statusView.visibility = View.VISIBLE; statusView.text = "Gagal memutar siaran"; Toast.makeText(this@MainActivity, "Gagal memutar siaran", Toast.LENGTH_SHORT).show() }
+                override fun onPlayerError(error: PlaybackException) { showError("Gagal memutar siaran") }
             })
         }
+    }
+
+    private fun showError(message: String) {
+        statusView.visibility = View.VISIBLE; statusView.text = message
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() { playerView.player = null; player?.release(); player = null; super.onStop() }
