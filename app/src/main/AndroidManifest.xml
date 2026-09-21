@@ -10,7 +10,7 @@
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
-        android:label="Elnet TV"
+        android:label="ELNETTV"
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
